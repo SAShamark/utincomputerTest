@@ -30,7 +30,9 @@ Reference video: youtube.com/shorts/jDmxAjDl7Co ("Block Breaker — Gameplay Tra
 - Path blocked check: SphereCast/OverlapCapsule along path with player radius.
 - Player STAYS at start while clearing (per GDD: clear path first). After each shot's explosions settle, if the whole corridor to the door is clear → ball hops all the way to the door (door opens at 5 m) → win.
 - Lose "not enough": path still blocked and `currentSize - minSize < minShotSize`.
-- Camera is static: CameraControl fits start→door (with side margin, UI paddings) into the viewport for any aspect; no follow. Whole level must always be on screen.
+- Camera fits start→door into the viewport for any aspect (whole level on screen); shake + zoom punch on impact; follows the ball only on the final run to the door.
+- Visual theme: bright "cozy garden" like the GDD art (stylized low-poly grass ground `Land1.png` from h8games, purple jelly-slime enemies with eyes + idle bob (built from primitives), pink path, orange slime ball with eyes looking forward, farm house + garden gate, hedges/trees/flower beds only on the frame). Field obstacles removed (only zones on the path). Keep the play field clean — no decor between obstacles. Models from user's polyperfect pack (private task, license OK).
+- Look (per user references): camera pitch 46°/yaw -20°/FOV 40 (CameraControl fits distance), warm low sun (34°,-55°) soft shadows, `Assets/Settings/GameVolumeProfile.asset` (Neutral tonemap, color adjust, white balance, bloom, vignette), path = raised pink Lit slab from 6 m behind start to door. Use `capture game_view --source camera` if screen capture comes out blank.
 - Shot always flies straight toward the target (GDD). Edge obstacles must be cleared by infection radius/chain, level is designed for that. Shot also checks start overlap.
 - Obstacles: procedural grid with noise + seed; start size = required shot volume × 1.2 + min size.
 - Infection: OverlapSphere(radius from shot size), then infected obstacles infect neighbours in small radius with delay (chain).

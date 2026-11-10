@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfba556b80cac1147976c0f62ebbeaa4, type: 3}
+  m_Name: LevelConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.LevelConfig
+  _balanceConfig: {fileID: 11400000, guid: 130d2e8493e048a4e8b0f0014115acdd, type: 2}
+  _zones:
+  - _name: Z1 Warm-up cluster
+    _shotMasses:
+    - 0.1
+  - _name: Z2 Snipers
+    _shotMasses:
+    - 0.02
+    - 0.02
+    - 0.02
+  - _name: Z3 Sentry
+    _shotMasses:
+    - 0.02
+  - _name: Z4 Nest
+    _shotMasses:
+    - 0.08
+  - _name: Z5 Wall
+    _shotMasses:
+    - 0.18
+  - _name: Z6 Broken bridge
+    _shotMasses:
+    - 0.06
+    - 0.06
+  - _name: Z7 Door guard
+    _shotMasses:
+    - 0.05

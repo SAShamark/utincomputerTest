@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcae857b07e47ff4d974e47ba97ffa20, type: 3}
+  m_Name: BalanceConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.BalanceConfig
+  _radiusScale: 1
+  _startMass: 0.9
+  _minMass: 0.03
+  _minShotMass: 0.02
+  _baseChargeRate: 0.08
+  _chargeAcceleration: 0.25
+  _shotSpeed: 14
+  _shotMaxDistance: 40
+  _infectionBudgetScale: 380
+  _infectionBudgetExponent: 1.5
+  _shotLaunchCost: 0.01
+  _infectionMultiplier: 2.5
+  _linkDistance: 0.9
+  _hopEnergyCost: 0.5
+  _chainDelay: 0.08
+  _explodeDelay: 0.2
+  _hopLength: 1.2
+  _hopDuration: 0.25
+  _hopHeight: 0.5
+  _pathWidthTolerance: 0.9
+  _doorOpenDistance: 5
