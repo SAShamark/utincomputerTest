@@ -14,7 +14,7 @@ namespace Game.Entities.Player
         [SerializeField] private Transform _shotsContainer;
         [SerializeField] private PlayerBallFeedback _feedback;
 
-        private const int SHOTS_POOL_SIZE = 2;
+        private const int SHOTS_POOL_SIZE = 5;
 
         private readonly BallSizeLogic _sizeLogic = new();
         private readonly ChargeLogic _chargeLogic = new();
@@ -27,14 +27,14 @@ namespace Game.Entities.Player
         private Vector3 _moveDirection;
         private Vector3 _targetPosition;
         private bool _isGameplayActive;
-        private bool _isShotInFlight;
+        private int _shotsInFlight;
 
         public float Mass => _sizeLogic.Mass;
         public float Radius => _sizeLogic.Radius;
         public Vector3 MoveDirection => _moveDirection;
         public bool CanShoot => _sizeLogic.Mass - _balanceConfig.MinMass >=
                                 _balanceConfig.MinShotMass + _balanceConfig.ShotLaunchCost;
-        public bool IsBusy => _chargeLogic.IsCharging || _isShotInFlight || _hopMovementLogic.IsMoving;
+        public bool IsBusy => _chargeLogic.IsCharging || _shotsInFlight > 0 || _hopMovementLogic.IsMoving;
         public float DistanceToTarget => HorizontalDistanceToTarget();
         public ShotProjectile ChargingShot => _chargeLogic.IsCharging ? _currentShot : null;
 
@@ -115,7 +115,7 @@ namespace Game.Entities.Player
 
         private void HandlePressed()
         {
-            if (!_isGameplayActive || IsBusy || !CanShoot)
+            if (!_isGameplayActive || _chargeLogic.IsCharging || _hopMovementLogic.IsMoving || !CanShoot)
             {
                 return;
             }
@@ -136,7 +136,7 @@ namespace Game.Entities.Player
             }
 
             _chargeLogic.Stop();
-            _isShotInFlight = true;
+            _shotsInFlight++;
             _currentShot.Launch(_moveDirection, HandleShotImpact, HandleShotMissed);
             _currentShot = null;
             _sizeLogic.Take(_balanceConfig.ShotLaunchCost);
@@ -203,7 +203,7 @@ namespace Game.Entities.Player
         private void FinishShot(ShotProjectile shot)
         {
             _shotsPool.ReturnToPool(shot);
-            _isShotInFlight = false;
+            _shotsInFlight--;
             OnShotFinished?.Invoke();
         }
     }

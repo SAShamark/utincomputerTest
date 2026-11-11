@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using Game.Entities.Player;
 using Game.Entities.Shot;
 using Services;
-using Services.ObjectPool;
 using UnityEngine;
 
 namespace Game.Entities.Obstacles
@@ -12,17 +10,9 @@ namespace Game.Entities.Obstacles
     public class InfectionController : MonoBehaviour
     {
         [SerializeField] private LayerMask _obstaclesMask;
-        [SerializeField] private ParticleSystem _impactEffectPrefab;
-        [SerializeField] private ParticleSystem _explosionEffectPrefab;
-        [SerializeField] private Transform _effectsContainer;
-        [SerializeField] private float _effectLifetime = 1.5f;
-        [SerializeField] private float _explosionEffectHeight = 0.6f;
-        [SerializeField] private float _shakeStrengthPerRadius = 0.3f;
-        [SerializeField] private float _shakeDuration = 0.25f;
+        [SerializeField] private InfectionEffects _effects;
 
         private const int OVERLAP_BUFFER_SIZE = 128;
-        private const int IMPACT_EFFECTS_POOL_SIZE = 2;
-        private const int EXPLOSION_EFFECTS_POOL_SIZE = 24;
 
         private readonly Collider[] _overlapBuffer = new Collider[OVERLAP_BUFFER_SIZE];
         private readonly List<SpreadTask> _spreadTasks = new();
@@ -31,9 +21,6 @@ namespace Game.Entities.Obstacles
 
         private BalanceConfig _balanceConfig;
         private PlayerBallControl _playerBallControl;
-        private CameraControl _cameraControl;
-        private ObjectPool<ParticleSystem> _impactEffectsPool;
-        private ObjectPool<ParticleSystem> _explosionEffectsPool;
         private bool _isInfectionRunning;
 
         public bool IsActive => _spreadTasks.Count > 0 || _waitingExplosion.Count > 0;
@@ -45,11 +32,7 @@ namespace Game.Entities.Obstacles
         {
             _balanceConfig = balanceConfig;
             _playerBallControl = playerBallControl;
-            _cameraControl = cameraControl;
-            _impactEffectsPool = new ObjectPool<ParticleSystem>(_impactEffectPrefab, IMPACT_EFFECTS_POOL_SIZE,
-                _effectsContainer);
-            _explosionEffectsPool = new ObjectPool<ParticleSystem>(_explosionEffectPrefab,
-                EXPLOSION_EFFECTS_POOL_SIZE, _effectsContainer);
+            _effects.Init(cameraControl, gameObject);
             _playerBallControl.OnShotImpact += HandleShotImpact;
         }
 
@@ -85,10 +68,7 @@ namespace Game.Entities.Obstacles
                 Infect(obstacle, Mathf.Max(infectionRadius - distance, ValueConstants.EPSILON), budget);
             }
 
-            PlayEffect(_impactEffectsPool, impactPoint);
-            _cameraControl.Shake(shot.Radius * _shakeStrengthPerRadius, _shakeDuration);
-            _cameraControl.PunchZoom(shot.Radius);
-            Debug.Log($"Shot impact: mass {shot.Mass:F3}, infection radius {infectionRadius:F2}, budget {budgetCount}");
+            _effects.PlayImpact(impactPoint, shot.Radius);
         }
 
         private void Infect(ObstacleControl obstacle, float energy, InfectionBudget budget)
@@ -174,17 +154,8 @@ namespace Game.Entities.Obstacles
         {
             obstacle.OnExploded -= HandleObstacleExploded;
             _waitingExplosion.Remove(obstacle);
-            PlayEffect(_explosionEffectsPool, obstacle.transform.position + Vector3.up * _explosionEffectHeight);
+            _effects.PlayExplosion(obstacle.transform.position);
             OnObstacleExploded?.Invoke();
-        }
-
-        private void PlayEffect(ObjectPool<ParticleSystem> pool, Vector3 position)
-        {
-            ParticleSystem effect = pool.GetFreeElement();
-            effect.transform.position = position;
-            effect.Clear(true);
-            effect.Play(true);
-            DOVirtual.DelayedCall(_effectLifetime, () => pool.ReturnToPool(effect)).SetLink(gameObject);
         }
 
         private void CheckFinished()

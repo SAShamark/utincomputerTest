@@ -10,7 +10,6 @@ namespace Game.Entities.Player.Parts
 
         public float Mass { get; private set; }
         public float Radius => _balanceConfig.MassToRadius(Mass);
-        public bool IsDepleted => Mass < _balanceConfig.MinMass;
 
         public event Action<float> OnMassChanged;
 

@@ -89,8 +89,7 @@ namespace UI.Screens.Variants.Gameplay
             float progress = Mathf.Clamp01((float)_destroyedObstacles / _totalObstacles);
             _levelProgressTween?.Kill();
             _levelProgressTween = _levelProgressFill.DOFillAmount(progress, _levelProgressTweenDuration)
-                .SetEase(Ease.OutQuad)
-                .SetLink(gameObject);
+                .SetEase(Ease.OutQuad).SetLink(gameObject);
         }
     }
 }

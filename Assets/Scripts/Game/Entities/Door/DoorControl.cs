@@ -20,9 +20,7 @@ namespace Game.Entities.Door
 
         public bool IsOpen { get; private set; }
         public Vector3 PassPosition => _passPoint.position;
-
-        public event Action OnOpened;
-
+        
         public void Init(BalanceConfig balanceConfig, PlayerBallControl playerBallControl)
         {
             _balanceConfig = balanceConfig;
@@ -51,7 +49,7 @@ namespace Game.Entities.Door
                 .Append(_leftLeaf.DOLocalRotate(Vector3.zero, _closeDuration).SetEase(Ease.InQuad))
                 .Join(_rightLeaf.DOLocalRotate(Vector3.zero, _closeDuration).SetEase(Ease.InQuad))
                 .Append(transform.DOPunchScale(Vector3.one * 0.04f, 0.2f, 6, 0.5f))
-                .OnComplete(() => onClosed.Invoke())
+                .OnComplete(onClosed.Invoke)
                 .SetLink(gameObject);
         }
 
@@ -76,7 +74,6 @@ namespace Game.Entities.Door
                 .Append(_leftLeaf.DOLocalRotate(new Vector3(0f, _openAngle, 0f), _openDuration).SetEase(Ease.OutBack))
                 .Join(_rightLeaf.DOLocalRotate(new Vector3(0f, -_openAngle, 0f), _openDuration).SetEase(Ease.OutBack))
                 .SetLink(gameObject);
-            OnOpened?.Invoke();
         }
     }
 }

@@ -2497,13 +2497,14 @@ MonoBehaviour:
   _obstaclesMask:
     serializedVersion: 2
     m_Bits: 64
-  _impactEffectPrefab: {fileID: 4140530422612699924, guid: 7b01a3b41b882df499de57e235b37736, type: 3}
-  _explosionEffectPrefab: {fileID: 4044933751006084461, guid: 58094c16508d1fb428219be61f792150, type: 3}
-  _effectsContainer: {fileID: 898356829}
-  _effectLifetime: 1.5
-  _explosionEffectHeight: 0.6
-  _shakeStrengthPerRadius: 0.3
-  _shakeDuration: 0.25
+  _effects:
+    _impactEffectPrefab: {fileID: 4140530422612699924, guid: 7b01a3b41b882df499de57e235b37736, type: 3}
+    _explosionEffectPrefab: {fileID: 4044933751006084461, guid: 58094c16508d1fb428219be61f792150, type: 3}
+    _effectsContainer: {fileID: 898356829}
+    _effectLifetime: 1.5
+    _explosionEffectHeight: 0.6
+    _shakeStrengthPerRadius: 0.3
+    _shakeDuration: 0.25
 --- !u!4 &312556346
 Transform:
   m_ObjectHideFlags: 0
@@ -2976,17 +2977,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23145ffc43556f40b182e4e5b405498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.CameraControl
-  _sideMargin: 2.6
-  _startBackMargin: 1.2
-  _endHeight: 3.8
-  _topPadding: 0.12
-  _bottomPadding: 0.08
-  _sidePadding: 0.03
-  _followDistance: 16
-  _followSharpness: 3
-  _zoomPunchPerRadius: 4
-  _zoomPunchInDuration: 0.06
-  _zoomPunchOutDuration: 0.25
+  _fitLogic:
+    _sideMargin: 2.6
+    _startBackMargin: 1.2
+    _endHeight: 3.8
+    _topPadding: 0.12
+    _bottomPadding: 0.08
+    _sidePadding: 0.03
+  _impactLogic:
+    _zoomPunchPerRadius: 4
+    _zoomPunchInDuration: 0.06
+    _zoomPunchOutDuration: 0.25
+  _followLogic:
+    _followDistance: 16
+    _followSharpness: 3
 --- !u!1001 &337012590
 PrefabInstance:
   m_ObjectHideFlags: 0

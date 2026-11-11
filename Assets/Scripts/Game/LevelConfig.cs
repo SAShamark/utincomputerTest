@@ -13,7 +13,6 @@ namespace Game
         private const float REQUIRED_RESERVE = 1.2f;
 
         public int LevelNumber => _levelNumber;
-        public IReadOnlyList<ZoneShots> Zones => _zones;
 
         public float ReferenceShotsMass
         {

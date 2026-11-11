@@ -73,7 +73,7 @@ namespace Game
 
         private void HandleShotFinished()
         {
-            if (_infectionController.IsActive)
+            if (_infectionController.IsActive || _playerBallControl.IsBusy)
             {
                 return;
             }

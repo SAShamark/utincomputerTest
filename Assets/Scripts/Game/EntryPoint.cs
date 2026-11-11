@@ -30,7 +30,6 @@ namespace Game
 
         private void Start()
         {
-            Debug.Log($"Level reserve: {_levelConfig.Reserve:F2} (reference shots mass {_levelConfig.ReferenceShotsMass:F2})");
             InitializePlayer();
             InitializePath();
             InitializeObstacles();

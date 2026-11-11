@@ -23,9 +23,11 @@ namespace Game.Entities.Path
             _playerBallControl = playerBallControl;
         }
 
+        private float CorridorHalfWidth => _playerBallControl.Radius * _balanceConfig.PathWidthTolerance;
+
         public bool IsPathClear(float distance)
         {
-            float castRadius = _playerBallControl.Radius * _balanceConfig.PathWidthTolerance;
+            float castRadius = CorridorHalfWidth;
             Vector3 origin = _playerBallControl.transform.position;
             origin.y = _playerBallControl.Radius;
 
@@ -42,7 +44,7 @@ namespace Game.Entities.Path
         {
             blockers.Clear();
 
-            float halfWidth = _playerBallControl.Radius * _balanceConfig.PathWidthTolerance;
+            float halfWidth = CorridorHalfWidth;
             Vector3 direction = _playerBallControl.MoveDirection;
             Vector3 center = _playerBallControl.transform.position + direction * (distance * 0.5f);
             center.y = _blockersCheckHalfHeight;
