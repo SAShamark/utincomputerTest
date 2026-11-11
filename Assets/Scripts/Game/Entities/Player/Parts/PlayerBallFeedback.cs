@@ -76,11 +76,6 @@ namespace Game.Entities.Player.Parts
 
         private void StartBlinking()
         {
-            if (_eyes == null || _eyes.Length == 0)
-            {
-                return;
-            }
-
             _blinkSequence = DOTween.Sequence().AppendInterval(_blinkInterval);
 
             foreach (Transform eye in _eyes)

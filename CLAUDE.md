@@ -6,7 +6,7 @@
 - CLI tips: `export UNITY_PROJECT_PATH=C:/Repositories/utincomputerTest`; flags `--caller plugin --skill unity-cli --result-only`. After writing .cs run `script eval 'UnityEditor.AssetDatabase.Refresh()'` then poll `script recompile_status`. Multi-line C# via `script eval --file <tmp.cs>`. Play: `editor set_auto_tick` then `editor.playmode start` / `editor.playmode stop` (editor unfocused otherwise freezes). Also once per session: `editor.playmode set_run_in_background` (else frames stuck at 1).
 - Simulated mouse input doesn't reach unfocused Game view → test gameplay by invoking handlers via reflection in `script eval`.
 - After `AssetDatabase.CreateAsset` + `OpenScene`, re-load assets with `LoadAssetAtPath` before assigning refs (otherwise ref saved as null). Always verify refs after wiring. Assign asset refs AFTER OpenScene (load asset again after opening).
-- Balance bot: invoke private `HandlePressed`, loop `Charge(0.005f)` to exact mass, `HandleReleased` via reflection; pick mass by first blocker's zone.
+- Balance bot: invoke private `PlayerBallControl.HandlePressed`, loop `_shootingLogic.Tick(0.005f)` until `_currentShot.Mass` reaches target, then `HandleReleased` (reflection); pick mass by first blocker's zone.
 - Folders: `Assets/Scripts` (namespaces = folders), `Assets/Prefabs`, `Assets/Configs`, `Assets/Materials`, `Assets/Scenes` (Bootstrap = build 0, Game = build 1). Build target: Android, portrait.
 
 ## Scene assembly rule
@@ -34,11 +34,11 @@ Reference video: youtube.com/shorts/jDmxAjDl7Co ("Block Breaker — Gameplay Tra
 - Visual theme: bright "cozy garden" like the GDD art (stylized low-poly grass ground `Land1.png` from h8games, purple jelly-slime enemies with eyes + idle bob (built from primitives), pink path, orange slime ball with eyes looking forward, farm house + garden gate, hedges/trees/flower beds only on the frame). Field obstacles removed (only zones on the path). Keep the play field clean — no decor between obstacles. Models from user's polyperfect pack (private task, license OK).
 - Look (per user references): camera pitch 46°/yaw -20°/FOV 40 (CameraControl fits distance), warm low sun (34°,-55°) soft shadows, `Assets/Settings/GameVolumeProfile.asset` (Neutral tonemap, color adjust, white balance, bloom, vignette), path = raised pink Lit slab from 6 m behind start to door. Use `capture game_view --source camera` if screen capture comes out blank.
 - Shot always flies straight toward the target (GDD). Edge obstacles must be cleared by infection radius/chain, level is designed for that. Shot also checks start overlap.
-- Obstacles: procedural grid with noise + seed; start size = required shot volume × 1.2 + min size.
+- Obstacles: hand-placed prefab instances in zones on the path; shot economy = infection budget ∝ m^1.5 + launch cost 0.01; start mass 0.9 gives ~21% reserve for planned play.
 - Infection: OverlapSphere(radius from shot size), then infected obstacles infect neighbours in small radius with delay (chain).
 
-## Planned classes
-`PlayerBallControl` (parts: `BallSizeLogic`, `ChargeLogic`, `HopMovementLogic`), `ShotProjectile`, `ObstacleControl`, `ObstaclesSpawner`, `PathChecker`, `PathView`, `DoorControl`, `LevelConfig` (SO), `GameplayController`, `EntryPoint`, `CameraControl`.
+## Main classes
+`EntryPoint`, `GameplayController`, `LevelConfig`/`BalanceConfig` (SO), `CameraControl` (+ `CameraParts/` Fit/Impact/Follow), `PlayerBallControl` (+ parts `BallSizeLogic`, `ShootingLogic` (uses `ChargeLogic`), `HopMovementLogic`, `PlayerBallFeedback`), `ShotProjectile`, `InfectionPreview`, `ObstacleControl` (+ `ObstacleFeedback`), `InfectionController` (+ `InfectionEffects`), `PathChecker`, `PathView`, `BlockersHighlight`, `DoorControl`, UI `GameplayScreen`.
 
 ## Code style (follow strictly)
 Reference code: `C:\Users\sasha\Desktop\Scripts` — copy infrastructure from there (allowed by user):

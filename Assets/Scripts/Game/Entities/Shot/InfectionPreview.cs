@@ -31,11 +31,6 @@ namespace Game.Entities.Shot
 
         private void LateUpdate()
         {
-            if (_playerBallControl == null)
-            {
-                return;
-            }
-
             ShotProjectile shot = _playerBallControl.ChargingShot;
             if (shot == null || !TryGetImpactPoint(shot, out Vector3 impactPoint))
             {

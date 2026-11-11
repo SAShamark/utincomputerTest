@@ -29,7 +29,7 @@ namespace Game.Entities.Door
 
         private void Update()
         {
-            if (_playerBallControl == null || IsOpen)
+            if (IsOpen)
             {
                 return;
             }

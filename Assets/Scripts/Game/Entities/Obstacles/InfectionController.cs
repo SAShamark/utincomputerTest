@@ -38,10 +38,7 @@ namespace Game.Entities.Obstacles
 
         private void OnDestroy()
         {
-            if (_playerBallControl != null)
-            {
-                _playerBallControl.OnShotImpact -= HandleShotImpact;
-            }
+            _playerBallControl.OnShotImpact -= HandleShotImpact;
         }
 
         private void Update()

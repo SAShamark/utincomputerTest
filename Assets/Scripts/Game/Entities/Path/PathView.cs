@@ -26,11 +26,6 @@ namespace Game.Entities.Path
 
         private void LateUpdate()
         {
-            if (_playerBallControl == null)
-            {
-                return;
-            }
-
             UpdateView();
         }
 

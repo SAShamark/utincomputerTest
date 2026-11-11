@@ -20094,6 +20094,10 @@ PrefabInstance:
       propertyPath: _shotsContainer
       value: 
       objectReference: {fileID: 815386467}
+    - target: {fileID: 1926810344049278358, guid: 08799ef05caa04945a2b35d7da15597a, type: 3}
+      propertyPath: _shootingLogic._shotsContainer
+      value: 
+      objectReference: {fileID: 815386467}
     - target: {fileID: 7791775286702810675, guid: 08799ef05caa04945a2b35d7da15597a, type: 3}
       propertyPath: m_Name
       value: PlayerBall

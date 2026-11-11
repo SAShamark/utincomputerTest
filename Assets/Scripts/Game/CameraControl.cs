@@ -10,24 +10,17 @@ namespace Game
         [SerializeField] private CameraImpactLogic _impactLogic;
         [SerializeField] private CameraFollowLogic _followLogic;
 
-        private Camera _camera;
-
         public void Init(Vector3 startPosition, Vector3 endPosition)
         {
-            _camera = GetComponent<Camera>();
-            _fitLogic.Init(transform, _camera, startPosition, endPosition);
-            _impactLogic.Init(transform, _camera);
+            Camera camera = GetComponent<Camera>();
+            _fitLogic.Init(transform, camera, startPosition, endPosition);
+            _impactLogic.Init(transform, camera);
             _followLogic.Init(transform);
             _fitLogic.Fit();
         }
 
         private void LateUpdate()
         {
-            if (_camera == null)
-            {
-                return;
-            }
-
             if (_followLogic.IsFollowing)
             {
                 _followLogic.Tick(Time.deltaTime);

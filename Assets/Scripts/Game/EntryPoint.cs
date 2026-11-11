@@ -76,7 +76,7 @@ namespace Game
 
         private void OnDestroy()
         {
-            _gameplayController?.Dispose();
+            _gameplayController.Dispose();
         }
     }
 }

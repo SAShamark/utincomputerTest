@@ -408,8 +408,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Entities.Player.PlayerBallControl
   _view: {fileID: 690856303293972684}
-  _shotPrefab: {fileID: 1502962639392104898, guid: f5afebe3640267f448ebc8b38f453587, type: 3}
-  _shotsContainer: {fileID: 0}
+  _shootingLogic:
+    _shotPrefab: {fileID: 1502962639392104898, guid: f5afebe3640267f448ebc8b38f453587, type: 3}
+    _shotsContainer: {fileID: 0}
   _feedback:
     _breathScale: {x: 1.06, y: 0.92, z: 1.06}
     _breathHalfPeriod: 0.12

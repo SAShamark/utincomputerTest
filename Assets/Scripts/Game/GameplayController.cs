@@ -27,11 +27,11 @@ namespace Game
         public GameplayController(PlayerBallControl playerBallControl, InfectionController infectionController,
             PathChecker pathChecker, CameraControl cameraControl, DoorControl door)
         {
-            _cameraControl = cameraControl;
-            _door = door;
             _playerBallControl = playerBallControl;
             _infectionController = infectionController;
             _pathChecker = pathChecker;
+            _cameraControl = cameraControl;
+            _door = door;
             _uiManager = UIManager.Instance;
             _blockersHighlight = new BlockersHighlight(pathChecker, playerBallControl);
         }
@@ -68,7 +68,7 @@ namespace Game
 
         private void HandleMassDepleted()
         {
-            Lose("Player ball was fully pumped into the shot");
+            Lose();
         }
 
         private void HandleShotFinished()
@@ -117,7 +117,7 @@ namespace Game
 
             if (!_playerBallControl.CanShoot)
             {
-                Lose("Not enough size left to clear the path");
+                Lose();
             }
         }
 
@@ -126,7 +126,6 @@ namespace Game
             _isFinished = true;
             _blockersHighlight.Clear();
             _playerBallControl.StopGameplay();
-            Debug.Log("Win: target reached with mass " + _playerBallControl.Mass.ToString("F3"));
             HideGameplayScreen();
             _uiManager.PopupsManager.ShowPopup(PopupTypes.LevelComplete);
 
@@ -135,12 +134,11 @@ namespace Game
             levelCompletedPopup.OnButtonClicked += HandleRestartClicked;
         }
 
-        private void Lose(string reason)
+        private void Lose()
         {
             _isFinished = true;
             _blockersHighlight.Clear();
             _playerBallControl.StopGameplay();
-            Debug.Log("Lose: " + reason);
             HideGameplayScreen();
             _uiManager.PopupsManager.ShowPopup(PopupTypes.Result);
 

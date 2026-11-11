@@ -54,7 +54,6 @@ namespace Game
         public float ChainDelay => _chainDelay;
         public float ExplodeDelay => _explodeDelay;
 
-        public float RadiusScale => _radiusScale;
         public float StartMass => _startMass;
         public float MinMass => _minMass;
         public float MinShotMass => _minShotMass;
